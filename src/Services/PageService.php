@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerInterface;
 
@@ -10,32 +11,11 @@ use Psr\Log\LoggerInterface;
  * Class PageService
  * @package App\Services
  */
-class PageService
+class PageService extends AbstractClientService
 {
     const PER_PAGE = 20;
     const BASE_URL = 'https://godotengine.org';
-    const ENDPOINT_QUESTIONS = '/qa/questions';
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * PageService constructor.
-     * @param LoggerInterface $logger
-     * @param Client $client
-     */
-    public function __construct(LoggerInterface $logger, Client $client)
-    {
-        $this->logger = $logger;
-        $this->client = $client;
-    }
+    const ENDPOINT_QUESTIONS = '/questions';
 
     /**
      * @param int $pages
@@ -50,7 +30,7 @@ class PageService
         
         return $pageData;
     }
-
+    
     /**
      * @param int $page
      * @return string
@@ -79,6 +59,15 @@ class PageService
             return '';
         }
         
+    }
+
+    /**
+     * @param $url
+     * @return string
+     */
+    public function getHtml($url) : string
+    {
+        return $this->client->get($url)->getBody();
     }
 
     /**

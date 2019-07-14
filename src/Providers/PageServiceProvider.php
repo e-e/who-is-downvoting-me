@@ -13,7 +13,7 @@ class PageServiceProvider extends Provider
         $app->register(PageService::class, function(App $app) {
             $logger = $app->gimme(LoggerInterface::class);
             $client = new Client([
-                'base_uri' => 'https://godotengine.org'
+                'base_uri' => 'https://godotengine.org/qa'
             ]);
             
             return new PageService($logger, $client);

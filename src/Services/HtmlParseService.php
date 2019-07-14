@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use DOMElement;
 use DOMDocument;
 use DOMNodeList;
 use DOMXPath;
@@ -44,12 +45,37 @@ class HtmlParseService
         
         return $elements;
     }
+
+    /**
+     * @param DOMElement $element
+     * @param string $cssSelector
+     * @return DOMNodeList
+     */
+    public function getElementsFromElement(DOMElement $element, string $cssSelector)
+    {
+        $xpath = new DOMXPath($element->ownerDocument);
+        $xpathQuery = $this->cssConverter->toXPath($cssSelector);
+        return $xpath->query($xpathQuery);
+    }
+
+    /**
+     * @param DOMElement $element
+     * @return string
+     */
+    public function getElementText(DOMElement $element) : string
+    {
+        return $element->textContent;
+    }
     
+    /**
+     * @param DOMNodeList $list
+     * @return array
+     */
     public function asArray(DOMNodeList $list) : array
     {
         $array = [];
 
-        for ($i = 0; $i < $list->count(); $i++) {
+        for ($i = 0; $i < $list->length; $i++) {
             $array[] = $list->item($i);
         }
         

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Exceptions\MissingCommandException;
 use App\Providers\Provider;
+use Closure;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 
@@ -99,7 +100,7 @@ class App {
             $class = $this->registry[$key];
         }
         
-        if (is_callable($class) or $class instanceof \Closure) {
+        if (is_callable($class) or $class instanceof Closure) {
             return $class($this);
         }
         

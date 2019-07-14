@@ -1,0 +1,11 @@
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$app = new \App\App;
+
+$commands = require_once __DIR__ . "/src/commands.php";
+require_once __DIR__ . "/src/registry.php";
+
+$app->setBaseDir(__DIR__);
+$app->run($commands, $argv);
